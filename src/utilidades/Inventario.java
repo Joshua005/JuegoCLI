@@ -11,8 +11,12 @@ package utilidades;
  *
  */
 import java.util.*;
+
 /**
- * 
+ * La clase Inventario representa un inventario que contiene una colección de ítems.
+ * Cada ítem tiene un nombre y un tamaño, y el inventario tiene una capacidad máxima
+ * para almacenar ítems. Los ítems se pueden agregar, dejar y remover del inventario,
+ * y se puede verificar si un ítem está presente en el inventario.
  */
 public class Inventario {
     private Map<String, Item> items;

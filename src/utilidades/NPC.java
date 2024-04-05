@@ -12,8 +12,9 @@ package utilidades;
  */
 import java.util.HashMap;
 import java.util.Map;
+
 /**
- * 
+ * La clase NPC representa a un Personaje No Jugador en el juego, que puede tener diálogos con el jugador.
  */
 public class NPC {
     private String nombre;
@@ -25,47 +26,51 @@ public class NPC {
     }
     
     /**
-     * 
-     * @param nombre
-     * @param cuartoActual
+     * Constructor de la clase NPC que recibe el nombre del NPC y el cuarto actual en el que se encuentra.
+     *
+     * @param nombre       El nombre del NPC.
+     * @param cuartoActual El cuarto en el que se encuentra el NPC.
      */
     public NPC(String nombre, Cuarto cuartoActual) {
         this.nombre = nombre;
         this.cuartoActual = cuartoActual;
         this.dialogos = new HashMap<>();
     }
+    
     /**
-     * 
-     * @return
+     * Método para obtener el cuarto actual en el que se encuentra el NPC.
+     *
+     * @return El cuarto actual del NPC.
      */
     public Cuarto getCuartoActual(){
         return this.cuartoActual;
     }
     
-    // Agregar un diálogo al NPC
     /**
-     * 
-     * @param trigger
-     * @param respuesta
+     * Método para agregar un diálogo al NPC.
+     *
+     * @param trigger   El gatillo que activa el diálogo.
+     * @param respuesta La respuesta del NPC al gatillo.
      */
     public void agregarDialogo(String trigger, String respuesta) {
         dialogos.put(trigger, respuesta);
     }
 
-    // Obtener una respuesta del NPC dado un trigger (gatillo)
     /**
-     * 
-     * @param trigger
-     * @return
+     * Método para obtener la respuesta del NPC dado un gatillo (trigger).
+     *
+     * @param trigger El gatillo que activa el diálogo.
+     * @return La respuesta del NPC al gatillo especificado.
      */
     public String obtenerRespuesta(String trigger) {
         return dialogos.get(trigger);
     }
 
-    // Obtener el nombre del NPC
+    
     /**
-     * 
-     * @return
+     * Método para obtener el nombre del NPC.
+     *
+     * @return El nombre del NPC.
      */
     public String getNombre() {
         return nombre;

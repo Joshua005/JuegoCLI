@@ -25,7 +25,9 @@ public class Monstruo extends NPC {
     public Monstruo(String nombre, Cuarto cuartoActual) {
         super(nombre, cuartoActual);
     }
-    
+    public Monstruo(String nombre,Cuarto cuarto, String dialogo){
+        super(nombre, cuarto, dialogo);
+    }
     /**
      * Método que mueve al monstruo una sala aleatoria entre las salidas disponibles del cuarto actual.
      * @param cuartoActual El cuarto actual en el que se encuentra el monstruo

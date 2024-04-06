@@ -40,7 +40,7 @@ public class FabricaDeComandos {
         //    el nombre del comando que va a usar el usuario
         // 3. No olvidarte de incluirlo en el mapa comandosConocidos
         //
-        this.comandosConocidos.put(VER, new ComamdoVerMapa());
+        this.comandosConocidos.put(DIALOGOS, new ComandoHablar());
         this.comandosConocidos.put(DEJAR, new ComandoDejar());
         this.comandosConocidos.put(GUARDAR, new ComamdoAgregar());
         this.comandosConocidos.put(INVENTARIO, new ComandoInventario());
@@ -104,7 +104,7 @@ public class FabricaDeComandos {
 
     // no te olvides de incluir esto en la lista de
     // comandos conocidos
-    private static final String VER = "ver";
+    private static final String DIALOGOS = "hablar";
     private static final String DEJAR = "dejar";
     private static final String GUARDAR = "guardar";
     private static final String INVENTARIO = "inventario";

@@ -12,7 +12,7 @@
 package comandos;
 import juego.Juego;
 /**
- * 
+ *Este comando habre el invertaio de jugador y muestra los items
  */
 public class ComandoInventario  extends ComandoAbstracto{
 

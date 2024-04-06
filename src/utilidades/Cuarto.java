@@ -207,8 +207,18 @@ public class Cuarto {
      * @param npc
      * @return boolean
      */
-    public boolean estanEnMismoCuarto(Jugador jugador, NPC npc) {
-        return npc != null && jugador.getCuartoActual() == this && npc.getCuartoActual() == this;
+    public boolean estanEnMismoCuarto(Cuarto jugador, NPC npc) {
+        Cuarto n = npc.getCuartoActual();
+        if(jugador != null && npc != null ){
+            if (jugador == n) {
+                return true;
+            }
+            
+        }
+        if (jugador == null || npc == null) {
+            System.out.println("uno de los dos es null");
+        }
+        return false;
     }
     
     

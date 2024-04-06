@@ -13,7 +13,7 @@ package comandos;
 import juego.Juego;
 
 /**
- * 
+ *  Este comando deja los items de jugador en el cuarto
  */
 public class ComandoDejar extends ComandoAbstracto {
 

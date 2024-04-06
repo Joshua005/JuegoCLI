@@ -12,13 +12,16 @@ package comandos;
  */
 import juego.Juego;
 /**
- * 
+ * Este comando sirve para ver los items que hay en un cuarto ademas de los npcs del mismo
  */
 public class ComandoMirar extends ComandoAbstracto {
 
     @Override
     public boolean ejecutar(Juego juego) { 
-        juego.imprimir(juego.mirar());
+        juego.imprimir(juego.mirarDescripcionCuarto());
+        juego.mirar();
+        juego.imprimir("Respuestas disponibles");
+        juego.imprimir(juego.dialogos().toString());
         return true;
     }
 }

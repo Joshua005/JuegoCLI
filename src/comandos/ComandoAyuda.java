@@ -32,7 +32,7 @@ public class ComandoAyuda extends ComandoAbstracto {
     @Override
     public boolean ejecutar(Juego juego) {
         juego.imprimir("Tu estas perdido. Estas solo. Te paseas ");
-        juego.imprimir("por el campus de la UNI.");
+        juego.imprimir("La manera de moverte es escribri \"ir\" y seguido este, norte, oeste, o sur  .");
         juego.imprimir();
         juego.imprimir("Los comandos disponibles son:");
 

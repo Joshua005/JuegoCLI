@@ -11,7 +11,9 @@ package comandos;
  *
  */
 import juego.Juego;
-
+/**
+ *  Comando que hagrea los items al inventario del jugador
+ */
 public class ComamdoAgregar extends ComandoAbstracto {
 
     @Override

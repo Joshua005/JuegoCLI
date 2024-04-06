@@ -13,6 +13,8 @@ package juego;
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import comandos.Comando;
@@ -21,49 +23,47 @@ import utilidades.Item;
 import utilidades.Jugador;
 import utilidades.Mapa;
 import utilidades.Monstruo;
+import utilidades.NPC;
 import utilidades.Parser;
 import utilidades.Salidas;
 
 /**
- * Esta clase es la principal para la aplicacion "Zork". Zork es un juego de
- * aventuras, simple, y basado en texto.
- *
- * En esta version, los usuarios pueden caminar através de algunos cuartos.
- * Eso es todo. Realmente el juego deberia ser extendido para volverse mas interesante.
- *
- * Para jugarlo, se debe crear una instancia de esta clase y llamar el metodo
- * "jugar"
- *
- * Esta clase crea inicializa a todas las otras, aqui empieza todo: crea todos
- * los Cuartos, crea los parsers (objetos que interpretan texto) y comienza el
- * juego. Tambien evalua los comandos que devuelve el parser.
+ * La clase Juego es la principal para la aplicación "Escape to the Backrooms". 
+ * Este juego de aventuras basado en texto permite a los jugadores explorar 
+ * diferentes cuartos, recolectar objetos y escapar de un monstruo.
  */
 
 public class Juego {
+    private final ArrayList CUARTOS_RECORRIDOS;
     private Parser parser;
     private Cuarto cuartoActual;
     private Cuarto cuartoAnterior;
+    private Cuarto cuartoMonstruo;
     private Jugador jugador;
     private Monstruo monstruo;
-    private Cuarto cuartoMonstruo;
+    private Cuarto npcCuca;
+    private NPC npc1;
     /**
      * Crea el juego e inicializa su mapa interno
      */
     public Juego() {
         crearCuartos();
         this.CUARTOS_RECORRIDOS = new ArrayList();
+        npc1 = new NPC("Roier",npcCuca,"Hola, supogo encotraste mi antigua cama");
         jugador = new Jugador("Joe", cuartoActual);
         monstruo = new Monstruo("Scp 288", cuartoMonstruo);
         jugador.getCuartoActual();
         parser = new Parser();
+        npc1.agregarDialogo("EH?", "Si mi vieja cama debe estar por ahí en algun lado");
     }
     // Inicializacion de items individuales
-    Mapa mapa1 = new Mapa("Mapa", "Pedazo de un mapa 3");
-    Mapa mapa2 = new Mapa("Mapa2", "Pedazo de un mapa4");
-    Mapa mapa3 = new Mapa("Mapa3", "4Pedazo de un mapa");
-    Mapa mapa4 = new Mapa("Mapa4", "7Pedazo de un mapa");
+    Mapa mapa1 = new Mapa("Fragmento de Mapa 1", "Un pedazo de papel con un dibujo que parece ser un pasillo sin fin. Hay algunas inscripciones en el borde");
+    Mapa mapa2 = new Mapa("Fragmento de Mapa 2", "Un trozo de pergamino arrugado con una serie de líneas que sugieren un laberinto. En un rincón");
+    Mapa mapa3 = new Mapa("Fragmento de Mapa 3", "Un mapa hecho a mano que muestra un camino borroso que conduce a una habitación desconocida.");
+    Mapa mapa4 = new Mapa("Fragmento de Mapa 4", "Otro trozo de papel que parece ser un mapa, sera este el ultimo?");
+
     Item alfombra = new Item("Alfombra", "Una alfombra vieja", 20);
-    Item marmolada = new Item("Marmolada", "Nada como una buena marmolada",4);
+    Item marmolada = new Item("Marmolada", "Nada como una buena marmolada",4); 
     
     /**
      * Crea todas las habitaciones y enlaza todas sus salidas
@@ -101,12 +101,11 @@ public class Juego {
         marmoladaCuarto.setSalidas(Set.of(new Salidas(Cuarto.ESTE, verde)));
         verde.setSalidas(Set.of(new Salidas(Cuarto.ESTE, cucarachas),new Salidas(Cuarto.NORTE, chipa)));
         cuartoMapas5.setSalidas(Set.of(new Salidas(Cuarto.NORTE, trampa)));
-        //
-        
         // Inicializacion de los mapas
         mapa1.agregarCuarto(inicio.getNombre(), inicio);
         mapa2.agregarCuarto(mapaCuarto.getNombre(), mapaCuarto);
         mapa3.agregarCuarto(cama.getNombre(), cama);
+        
         
         // inicializar los items de cada cuarto
         inicio.agregarItemAlInventario(mapa1);
@@ -118,8 +117,10 @@ public class Juego {
         // empezar juego afuera
         cuartoActual = inicio;
         cuartoMonstruo = cuartoMapas5;
+        npcCuca = cucarachas;
     }
 
+    
     /**
      * Rutina principal: jugar. Itera hasta el fin del juego..
      */
@@ -132,19 +133,19 @@ public class Juego {
         while (continuar ==true && mismo == false && totalMapas == false ) {
             Comando comando = parser.getComando();
             continuar = comando.ejecutar(this);
-            mismo = cuartoActual.estanEnMismoCuarto(jugador, monstruo);
+            mismo = cuartoActual.estanEnMismoCuarto(cuartoActual, monstruo);
             totalMapas = jugador.tieneMapasSuficientes(4);
             if(mismo == false) {
                 monstruo.moverMonstruo(cuartoActual);
             }
         }
-        if(totalMapas == true){
+        if(totalMapas){
             System.out.println("Haz logrado escapar de los backrooms");
         }
-        if (mismo == true){
+        if (mismo){
         System.out.println("Te ha deborado el " + monstruo.getNombre());
         }
-        if (continuar == false){
+        if (!continuar){
             System.out.println("Haz logrado escapar");
         }
     }
@@ -161,8 +162,8 @@ public class Juego {
     }
 
     /**
-     * Intenta ir en una direccion. Si esta fue una salida, entra a otra
-     * habitacion, en caso contrario imprime un mensaje de error.
+     * Intenta mover al jugador en una dirección específica.
+     * @param direccion La dirección en la que intenta moverse el jugador.
      */
     public void irA(String direccion) {
         if (null == direccion) {
@@ -184,7 +185,7 @@ public class Juego {
         }
     }
     /**
-     * Mueve al jugador al cuarto anterior he imprime la descripcion del cuarto en cuestion
+     * Mueve al jugador al cuarto anterior e imprime la descripción del cuarto.
      */
     public void atras(){
         try{
@@ -207,14 +208,51 @@ public class Juego {
      *  Retorna la descipcion del cuarto actual
      * @return la descripcion larga de el cuarto
      */
-    public String mirar(){
+    public String mirarDescripcionCuarto(){
         return cuartoActual.descripcionLarga();
+    }
+    
+    /**
+     * Muestra el diálogo del NPC presente en el cuarto actual, si lo hay.
+     */
+    public void mirar(){
+        if(cuartoActual.estanEnMismoCuarto( cuartoActual, npc1)){
+            imprimir(npc1.getNombre()+":  " + npc1.getDialogoPorDefecto() );
+        }
+        else{
+            imprimir("Este en este cuarto no hay nadie");
+        }
+        
     }
 
     /**
-     *  Este metodo guarda un item en el inventario del jugador y
-     *  elimina ese item del inventario del cuarto
-     * @param item nombre del item a guardar 
+     * Retorna un conjunto de diálogos disponibles en el cuarto actual.
+     * @return Un conjunto de cadenas que representan los diálogos disponibles.
+     */
+    public Set<String> dialogos(){
+        Set<String> mens = new HashSet<>(Arrays.asList("No hay nadie aqui"));
+
+        if(cuartoActual.estanEnMismoCuarto( cuartoActual, npc1)){
+            return npc1.getPalabras();
+        }
+        return mens;
+    }
+    
+    /**
+     * Permite al jugador hablar con el NPC presente en el cuarto actual.
+     * @param mensaje El mensaje que el jugador desea decir.
+     * @return La respuesta del NPC al mensaje del jugador.
+     */
+    public String hablar(String mensaje ){
+        String respuesta = "A quien le hablas?";
+        if(cuartoActual.estanEnMismoCuarto( cuartoActual, npc1)){
+            return npc1.obtenerRespuesta(mensaje);  
+        }
+        return respuesta;
+    }
+    /**
+     * Guarda un item en el inventario del jugador y lo elimina del cuarto.
+     * @param item El nombre del item a guardar.
      */
     public void guardarItems(String item){
         try {
@@ -298,5 +336,5 @@ public class Juego {
     public void imprimirCont(String mensaje) {
         System.out.print(mensaje);
     }
-  private final ArrayList CUARTOS_RECORRIDOS;
+  
 }

@@ -136,7 +136,7 @@ public class Cuarto {
      * @param nombreItem
      */
     public void removerItemDelInventario(String nombreItem) {
-        inventario.dejarItem(nombreItem);
+        inventario.dejarItemCuarto(nombreItem);
     }
 
      

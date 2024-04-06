@@ -1,4 +1,6 @@
 package comandos;
+import java.util.List;
+
 /*
  * Universidad Nacional de Itapua.
  * Proyecto Zork.
@@ -18,8 +20,15 @@ public class ComamdoAgregar extends ComandoAbstracto {
 
     @Override
     public boolean ejecutar(Juego juego) {
-        String itemCuarto = (String) getPalabras().get(1);
-        juego.guardarItems(itemCuarto);
+        StringBuilder sd = new StringBuilder();
+        List itemCuarto =  getPalabras();
+        for (int i=1; itemCuarto.size()>i;i++) {
+            if (itemCuarto.get(i)== null){
+                break;
+            }
+            else sd = sd.append(itemCuarto.get(i));
+        }
+        juego.guardarItems(sd.toString());
         return true;
     }
     

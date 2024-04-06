@@ -28,9 +28,19 @@ public class Item {
      * @param tamnho      El tamaño del ítem en el inventario.
      */
     public Item(String nombre, String descripcion, int tamnho) {
-        this.nombre = nombre;
+        this.nombre = eliminarEspacios(nombre);
         this.descripcion = descripcion;
         this.tamnho = tamnho;
+    }
+
+    /**
+     * Método privado para eliminar espacios del nombre del ítem.
+     *
+     * @param nombre El nombre del ítem.
+     * @return El nombre del ítem sin espacios.
+     */
+    private String eliminarEspacios(String nombre) {
+        return nombre.replaceAll("\\s", "");
     }
 
     /**

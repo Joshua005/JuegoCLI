@@ -83,6 +83,20 @@ public class Inventario {
         }
     }
     
+    /** 
+    * Remuve un item del inventario sin mostrar menjase
+    * exclusivo para uso en cuartos
+    * @param nombreItem El nombre del ítem a dejar en el inventario.
+    */
+    public void dejarItemCuarto(String nombreItem) {
+        Item item = items.get(nombreItem);
+        if (item != null) {
+            items.remove(nombreItem);
+            capacidadTotal -= item.getTamnho(); // Restar el tamaño del ítem dejado
+        } else {
+            System.out.println("El ítem '" + nombreItem + "' no está en el inventario.");
+        }
+    }
         
     /**
      * Verificar si un item está en el inventario

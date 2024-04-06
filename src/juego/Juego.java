@@ -57,10 +57,10 @@ public class Juego {
         npc1.agregarDialogo("EH?", "Si mi vieja cama debe estar por ahí en algun lado");
     }
     // Inicializacion de items individuales
-    Mapa mapa1 = new Mapa("Fragmento de Mapa 1", "Un pedazo de papel con un dibujo que parece ser un pasillo sin fin. Hay algunas inscripciones en el borde");
-    Mapa mapa2 = new Mapa("Fragmento de Mapa 2", "Un trozo de pergamino arrugado con una serie de líneas que sugieren un laberinto. En un rincón");
-    Mapa mapa3 = new Mapa("Fragmento de Mapa 3", "Un mapa hecho a mano que muestra un camino borroso que conduce a una habitación desconocida.");
-    Mapa mapa4 = new Mapa("Fragmento de Mapa 4", "Otro trozo de papel que parece ser un mapa, sera este el ultimo?");
+    Mapa mapa1 = new Mapa("Fragmento de Mapa ", "Un pedazo de papel con un dibujo que parece ser un pasillo sin fin. Hay algunas inscripciones en el borde");
+    Mapa mapa2 = new Mapa("Fragmento de Mapa2", "Un trozo de pergamino arrugado con una serie de líneas que sugieren un laberinto. En un rincón");
+    Mapa mapa3 = new Mapa("Fragmento de Mapa3", "Un mapa hecho a mano que muestra un camino borroso que conduce a una habitación desconocida.");
+    Mapa mapa4 = new Mapa("Fragmento de Mapa4", "Otro trozo de papel que parece ser un mapa, sera este el ultimo?");
 
     Item alfombra = new Item("Alfombra", "Una alfombra vieja", 20);
     Item marmolada = new Item("Marmolada", "Nada como una buena marmolada",4); 
@@ -269,9 +269,14 @@ public class Juego {
      * @param item nombre del item a dejar
      */
     public void dejarItems(String item){
-        Item itemJugador = jugador.obtenerItemDelInventario(item);
-        cuartoActual.agregarItemAlInventario(itemJugador);
-        jugador.removerItemDelInventario(item);
+        try{
+            Item itemJugador = jugador.obtenerItemDelInventario(item);
+            cuartoActual.agregarItemAlInventario(itemJugador);
+            jugador.removerItemDelInventario(item);
+        }catch (NullPointerException e){
+            imprimir("Que quieres dejar?");
+        }
+    
     }
     
     /**
